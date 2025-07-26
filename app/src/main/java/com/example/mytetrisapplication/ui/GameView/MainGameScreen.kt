@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.mytetrisapplication.Entity.GameRecord
+import com.example.mytetrisapplication.database.GameRecordEntity
 import com.example.mytetrisapplication.RecordActivity
 import com.example.mytetrisapplication.ViewModel.GameViewModel
 import com.example.mytetrisapplication.ui.theme.MyTetrisApplicationTheme
@@ -37,7 +37,7 @@ fun MainGameScreen(
             onRestart = { viewModel.resetGameState() },
             onSaveRecord = {
                 val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
-                viewModel.saveGameRecord(context, GameRecord(score = gameState.score, time = gameState.time, date = date))
+                viewModel.saveGameRecord(context, GameRecordEntity(score = gameState.score, time = gameState.time, date = date))
             },
             onViewRecords = {
                 viewModel.resetGameState() // 先重置游戏状态，防止返回后弹窗再出现

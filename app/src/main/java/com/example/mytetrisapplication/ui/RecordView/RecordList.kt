@@ -4,13 +4,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.mytetrisapplication.Entity.GameRecord
+import com.example.mytetrisapplication.database.GameRecordEntity
 import com.example.mytetrisapplication.ViewModel.RecordViewModel
 import android.content.Context
 
 @Composable
 fun RecordList(
-    records: List<GameRecord>,
+    records: List<GameRecordEntity>,
     viewModel: RecordViewModel,
     context: Context,
     onEditNote: (String) -> Unit,

@@ -8,12 +8,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import android.content.Context
-import com.example.mytetrisapplication.Entity.GameRecord
+import com.example.mytetrisapplication.database.GameRecordEntity
 import com.example.mytetrisapplication.GameRecordRepository
 import kotlinx.coroutines.flow.collectLatest
 
 data class RecordState(
-    val records: List<GameRecord> = emptyList(),
+    val records: List<GameRecordEntity> = emptyList(),
     val sortByScore: Boolean = true,
     val editingNote: String? = null,
     val editingIndex: Int = -1
@@ -140,7 +140,7 @@ class RecordViewModel : ViewModel() {
         }
     }
     
-    fun getSortedRecords(): List<GameRecord> {
+    fun getSortedRecords(): List<GameRecordEntity> {
         return _recordState.value.records
     }
 } 

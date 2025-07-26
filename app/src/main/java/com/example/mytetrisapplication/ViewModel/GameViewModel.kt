@@ -12,7 +12,7 @@ import com.example.mytetrisapplication.ui.GameState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.mytetrisapplication.ui.GameView.Block
-import com.example.mytetrisapplication.Entity.GameRecord
+import com.example.mytetrisapplication.database.GameRecordEntity
 import com.example.mytetrisapplication.GameRecordRepository
 import android.content.Context
 
@@ -295,7 +295,7 @@ class GameViewModel : ViewModel() {
     }
     
     // 保存游戏记录
-    fun saveGameRecord(context: Context, record: GameRecord) {
+    fun saveGameRecord(context: Context, record: GameRecordEntity) {
         viewModelScope.launch {
             try {
                 getRepository(context).saveRecord(record)

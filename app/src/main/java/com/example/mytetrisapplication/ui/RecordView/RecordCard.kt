@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.mytetrisapplication.Entity.GameRecord
+import com.example.mytetrisapplication.database.GameRecordEntity
 import com.example.mytetrisapplication.ViewModel.RecordViewModel
 import com.example.mytetrisapplication.ViewModel.RecordEvent
 import com.example.mytetrisapplication.R
@@ -18,7 +18,7 @@ import android.content.Context
 
 @Composable
 fun RecordCard(
-    record: GameRecord,
+    record: GameRecordEntity,
     recordIndex: Int,
     viewModel: RecordViewModel,
     context: Context,
