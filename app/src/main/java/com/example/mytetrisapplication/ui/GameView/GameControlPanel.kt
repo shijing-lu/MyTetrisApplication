@@ -17,7 +17,8 @@ fun GameControlPanel(
     onRight: () -> Unit,
     onDown: () -> Unit,
     onRotate: () -> Unit,
-    onHardDrop: () -> Unit // 新增
+    onHardDrop: () -> Unit,
+    enabled: Boolean = true
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -28,11 +29,15 @@ fun GameControlPanel(
             horizontalArrangement = Arrangement.Center
         ) {
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = onRotate) {
+            IconButton(
+                onClick = onRotate,
+                enabled = enabled
+            ) {
                 Image(
                     painterResource(id = R.drawable.up),
                     contentDescription = "旋转",
-                    modifier = Modifier.size(ControlPanelIconSize)
+                    modifier = Modifier.size(ControlPanelIconSize),
+                    alpha = if (enabled) 1.0f else 0.3f
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -41,18 +46,26 @@ fun GameControlPanel(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            IconButton(onClick = onLeft) {
+            IconButton(
+                onClick = onLeft,
+                enabled = enabled
+            ) {
                 Image(
                     painterResource(id = R.drawable.left),
                     contentDescription = "左",
-                    modifier = Modifier.size(ControlPanelIconSize)
+                    modifier = Modifier.size(ControlPanelIconSize),
+                    alpha = if (enabled) 1.0f else 0.3f
                 )
             }
-            IconButton(onClick = onRight) {
+            IconButton(
+                onClick = onRight,
+                enabled = enabled
+            ) {
                 Image(
                     painterResource(id = R.drawable.right),
                     contentDescription = "右",
-                    modifier = Modifier.size(ControlPanelIconSize)
+                    modifier = Modifier.size(ControlPanelIconSize),
+                    alpha = if (enabled) 1.0f else 0.3f
                 )
             }
         }
@@ -61,11 +74,15 @@ fun GameControlPanel(
             horizontalArrangement = Arrangement.Center
         ) {
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = onDown) {
+            IconButton(
+                onClick = onDown,
+                enabled = enabled
+            ) {
                 Image(
                     painterResource(id = R.drawable.down),
                     contentDescription = "下",
-                    modifier = Modifier.size(ControlPanelIconSize)
+                    modifier = Modifier.size(ControlPanelIconSize),
+                    alpha = if (enabled) 1.0f else 0.3f
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -76,11 +93,15 @@ fun GameControlPanel(
             horizontalArrangement = Arrangement.Center
         ) {
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = onHardDrop) {
+            IconButton(
+                onClick = onHardDrop,
+                enabled = enabled
+            ) {
                 Image(
                     painterResource(id = R.drawable.double_down),
                     contentDescription = "快速下落",
-                    modifier = Modifier.size(ControlPanelIconSize)
+                    modifier = Modifier.size(ControlPanelIconSize),
+                    alpha = if (enabled) 1.0f else 0.3f
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
