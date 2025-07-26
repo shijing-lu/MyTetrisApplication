@@ -1,4 +1,4 @@
-package com.example.mytetrisapplication.ui
+package com.example.mytetrisapplication.ViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
-import android.graphics.Color
+import com.example.mytetrisapplication.ui.GameState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.mytetrisapplication.ui.GameView.Block

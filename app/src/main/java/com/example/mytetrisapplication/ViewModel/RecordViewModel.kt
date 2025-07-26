@@ -1,4 +1,4 @@
-package com.example.mytetrisapplication.ui
+package com.example.mytetrisapplication.ViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import android.content.Context
-import com.example.mytetrisapplication.GameRecord
+import com.example.mytetrisapplication.Entity.GameRecord
 import com.example.mytetrisapplication.loadRecords
 import com.example.mytetrisapplication.saveRecord
 

@@ -1,6 +1,5 @@
 package com.example.mytetrisapplication.ui.GameView
 
-import androidx.compose.animation.core.RepeatMode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -13,10 +12,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.mytetrisapplication.GameRecord
+import com.example.mytetrisapplication.Entity.GameRecord
 import com.example.mytetrisapplication.RecordActivity
 import com.example.mytetrisapplication.saveRecord
-import com.example.mytetrisapplication.ui.GameViewModel
+import com.example.mytetrisapplication.ViewModel.GameViewModel
 import com.example.mytetrisapplication.ui.theme.MyTetrisApplicationTheme
 import java.text.SimpleDateFormat
 import java.util.Date

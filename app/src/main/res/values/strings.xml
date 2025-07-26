@@ -25,4 +25,10 @@
     <string name="sort_by_date">按日期</string>
     <string name="date">日期</string>
     <string name="duration">时长</string>
+    <string name="records_title">历史记录</string>
+    <string name="score_label">得分: </string>
+    <string name="duration_label">时长: </string>
+    <string name="date_label">日期: </string>
+    <string name="note_label">备注: </string>
+    <string name="seconds_unit">s</string>
 </resources>
