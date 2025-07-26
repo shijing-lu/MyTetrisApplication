@@ -12,6 +12,9 @@ import com.example.mytetrisapplication.ui.GameState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.mytetrisapplication.ui.GameView.Block
+import com.example.mytetrisapplication.Entity.GameRecord
+import com.example.mytetrisapplication.GameRecordRepository
+import android.content.Context
 
 class GameViewModel : ViewModel() {
     val board: Array<IntArray> = Array(com.example.mytetrisapplication.ui.GameView.BOARD_ROWS) { IntArray(com.example.mytetrisapplication.ui.GameView.BOARD_COLS) { 0 } }
@@ -27,6 +30,16 @@ class GameViewModel : ViewModel() {
     // 游戏计时器
     private var gameTimer: kotlinx.coroutines.Job? = null
     private var autoDropTimer: kotlinx.coroutines.Job? = null
+    
+    // Repository for database operations
+    private var repository: GameRecordRepository? = null
+    
+    private fun getRepository(context: Context): GameRecordRepository {
+        if (repository == null) {
+            repository = GameRecordRepository(context)
+        }
+        return repository!!
+    }
 
 
     private fun canPlace(block: Block): Boolean {
@@ -277,6 +290,18 @@ class GameViewModel : ViewModel() {
             withContext(Dispatchers.Main) {
                 updateGameState()
                 if (_gameState.value.isGameOver) stopTimers()
+            }
+        }
+    }
+    
+    // 保存游戏记录
+    fun saveGameRecord(context: Context, record: GameRecord) {
+        viewModelScope.launch {
+            try {
+                getRepository(context).saveRecord(record)
+            } catch (e: Exception) {
+                // 如果数据库操作失败，可以添加错误处理
+                e.printStackTrace()
             }
         }
     }
