@@ -1,6 +1,9 @@
 package com.example.mytetrisapplication
 
 import android.content.Context
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -31,7 +34,22 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mytetrisapplication.ui.RecordViewModel
 import com.example.mytetrisapplication.ui.RecordEvent
+import com.example.mytetrisapplication.ui.theme.MyTetrisApplicationTheme
 import com.google.gson.reflect.TypeToken
+
+class RecordActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyTetrisApplicationTheme {
+                RecordScreen(
+                    onBack = { finish() },
+                    viewModel = viewModel()
+                )
+            }
+        }
+    }
+}
 
 // 记录数据类
 data class GameRecord(val score: Int, val time: Int, val date: String, val note: String = "")
@@ -184,4 +202,4 @@ fun RecordScreen(
 @Composable
 fun RecordScreenPreview() {
     RecordScreen(onBack = {})
-}
+} 

@@ -14,13 +14,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mytetrisapplication.GameRecord
-import com.example.mytetrisapplication.RecordScreen
+import com.example.mytetrisapplication.RecordActivity
 import com.example.mytetrisapplication.saveRecord
 import com.example.mytetrisapplication.ui.GameViewModel
 import com.example.mytetrisapplication.ui.theme.MyTetrisApplicationTheme
 import java.text.SimpleDateFormat
 import java.util.Date
 import com.example.mytetrisapplication.R
+import android.content.Intent
 
 
 @Composable
@@ -28,15 +29,9 @@ fun MainGameScreen(
     modifier: Modifier = Modifier,
     viewModel: GameViewModel = viewModel()
 ) {
-    var showRecord by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val gameState by viewModel.gameState.collectAsStateWithLifecycle()
 
-    if (showRecord) {
-        RecordScreen(onBack = { showRecord = false })
-        return
-    }
-    
     if (gameState.isGameOver) {
         GameOverDialog(
             score = gameState.score,
@@ -46,7 +41,11 @@ fun MainGameScreen(
                 val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
                 saveRecord(context, GameRecord(gameState.score, gameState.time, date))
             },
-            onViewRecords = { showRecord = true }
+            onViewRecords = {
+                viewModel.resetGameState() // 先重置游戏状态，防止返回后弹窗再出现
+                val intent = Intent(context, RecordActivity::class.java)
+                context.startActivity(intent)
+            }
         )
     }
     Row(
@@ -113,7 +112,10 @@ fun MainGameScreen(
             Spacer(modifier = Modifier.weight(1f))
             ActionButton(
                 text = stringResource(id = R.string.more),
-                onClick = { showRecord = true },
+                onClick = { 
+                    val intent = Intent(context, RecordActivity::class.java)
+                    context.startActivity(intent)
+                },
                 backgroundColor = Color(0xFFE0E0E0),
                 textColor = Color.Black,
                 modifier = Modifier
