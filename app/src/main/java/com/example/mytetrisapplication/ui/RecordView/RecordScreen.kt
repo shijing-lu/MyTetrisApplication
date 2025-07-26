@@ -60,7 +60,6 @@ fun RecordScreen(
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onBack) { Text(stringResource(id = R.string.go_back)) }
     }
 
     // 备注编辑弹窗
