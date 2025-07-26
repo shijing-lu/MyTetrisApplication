@@ -96,7 +96,8 @@ fun MainGameScreen(
                 onClick = {
                     if (gameState.isPaused) viewModel.resumeGame()
                     else viewModel.pauseGame()
-                }
+                },
+                enabled = gameState.isStarted && !gameState.isGameOver // 只有游戏开始且未结束时才启用
             )
             Spacer(modifier = Modifier.height(12.dp))
             GameControlPanel(
@@ -104,7 +105,8 @@ fun MainGameScreen(
                 onRight = { viewModel.moveRight() },
                 onDown = { viewModel.moveDown() },
                 onRotate = { viewModel.rotate() },
-                onHardDrop = { viewModel.hardDrop() }
+                onHardDrop = { viewModel.hardDrop() },
+
             )
 
             Spacer(modifier = Modifier.weight(1f))

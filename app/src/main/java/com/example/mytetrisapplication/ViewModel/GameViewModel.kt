@@ -154,16 +154,22 @@ class GameViewModel : ViewModel() {
      * 暂停游戏
      */
     fun pauseGame() {
-        _gameState.update { it.copy(isPaused = true) }
-        stopTimers()
+        // 只有在游戏已开始且未结束时才能暂停
+        if (_gameState.value.isStarted && !_gameState.value.isGameOver) {
+            _gameState.update { it.copy(isPaused = true) }
+            stopTimers()
+        }
     }
     
     /**
      * 恢复游戏
      */
     fun resumeGame() {
-        _gameState.update { it.copy(isPaused = false) }
-        startTimers()
+        // 只有在游戏已开始、未结束且当前是暂停状态时才能恢复
+        if (_gameState.value.isStarted && !_gameState.value.isGameOver && _gameState.value.isPaused) {
+            _gameState.update { it.copy(isPaused = false) }
+            startTimers()
+        }
     }
     
     /**
