@@ -153,7 +153,6 @@ fun RecordScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onBack) { Text("返回") }
     }
     
     // 备注编辑弹窗
