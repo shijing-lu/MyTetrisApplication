@@ -32,6 +32,11 @@ fun MainGameScreen(
     val context = LocalContext.current
     val gameState by viewModel.gameState.collectAsStateWithLifecycle()
 
+    if (showRecord) {
+        RecordScreen(onBack = { showRecord = false })
+        return
+    }
+    
     if (gameState.isGameOver) {
         GameOverDialog(
             score = gameState.score,
@@ -40,12 +45,9 @@ fun MainGameScreen(
             onSaveRecord = {
                 val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
                 saveRecord(context, GameRecord(gameState.score, gameState.time, date))
-            }
+            },
+            onViewRecords = { showRecord = true }
         )
-    }
-    if (showRecord) {
-        RecordScreen(onBack = { showRecord = false })
-        return
     }
     Row(
         modifier = modifier

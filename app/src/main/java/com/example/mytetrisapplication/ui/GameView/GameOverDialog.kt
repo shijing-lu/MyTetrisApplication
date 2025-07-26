@@ -12,7 +12,8 @@ fun GameOverDialog(
     score: Int,
     time: Int,
     onRestart: () -> Unit,
-    onSaveRecord: () -> Unit
+    onSaveRecord: () -> Unit,
+    onViewRecords: () -> Unit
 ) {
     // 只在首次显示时保存记录
     val alreadySaved = remember { mutableStateOf(false) }
@@ -29,7 +30,12 @@ fun GameOverDialog(
         text = { Text(stringResource(id = R.string.score_and_time, score, time)) },
         confirmButton = {
             TextButton(onClick = onRestart) {
-                Text(stringResource(id = R.string.restart))
+                Text(stringResource(id = R.string.back_to_game))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onViewRecords) {
+                Text(stringResource(id = R.string.view_records))
             }
         }
     )
