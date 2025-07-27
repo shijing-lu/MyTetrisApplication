@@ -62,6 +62,7 @@ fun MainGameScreen(
             GameBoard(
                 board = gameState.board,
                 activeBlock = gameState.activeBlock,
+                ghostBlock = gameState.ghostBlock, // 传入预测方块位置
                 modifier = Modifier.weight(1f)
             )
         }
@@ -98,6 +99,15 @@ fun MainGameScreen(
                     else viewModel.pauseGame()
                 },
                 enabled = gameState.isStarted && !gameState.isGameOver // 只有游戏开始且未结束时才启用
+            )
+            Spacer(modifier = Modifier.height(SectionSpacing))
+            ActionButton(
+                text = if (gameState.assistMode) "关闭辅助" else "辅助模式",
+                onClick = {
+                    viewModel.toggleAssistMode()
+                },
+                backgroundColor = if (gameState.assistMode) Color(0xFF4CAF50) else Color(0xFF9E9E9E),
+                textColor = Color.White
             )
             Spacer(modifier = Modifier.height(12.dp))
             GameControlPanel(

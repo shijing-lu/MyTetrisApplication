@@ -57,6 +57,7 @@ fun DrawScope.drawBlockCell(
 fun GameBoard(
     board: Array<IntArray>,
     activeBlock: List<Pair<Int, Int>>,
+    ghostBlock: List<Pair<Int, Int>> = emptyList(), // 新增：预测方块位置
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -70,6 +71,7 @@ fun GameBoard(
         Canvas(modifier = Modifier.fillMaxSize()) {
             val cellWidth = size.width / BOARD_COLS
             val cellHeight = size.height / BOARD_ROWS
+            
             // 绘制棋盘背景
             for (row in 0 until BOARD_ROWS) {
                 for (col in 0 until BOARD_COLS) {
@@ -79,11 +81,27 @@ fun GameBoard(
                             col = col,
                             cellWidth = cellWidth,
                             cellHeight = cellHeight,
-                            cellSpacing = BlockCellSpacing // 可调整
+                            cellSpacing = BlockCellSpacing
                         )
                     }
                 }
             }
+            
+            // 绘制预测方块（灰色，在活动方块下方）
+            for ((row, col) in ghostBlock) {
+                if (row in 0 until BOARD_ROWS && col in 0 until BOARD_COLS) {
+                    drawBlockCell(
+                        row = row,
+                        col = col,
+                        cellWidth = cellWidth,
+                        cellHeight = cellHeight,
+                        cellSpacing = BlockCellSpacing,
+                        fillColor = Color.Gray.copy(alpha = 0.4f), // 半透明灰色
+                        borderWidth = 2f // 更细的边框
+                    )
+                }
+            }
+            
             // 绘制活动方块
             for ((row, col) in activeBlock) {
                 if (row in 0 until BOARD_ROWS && col in 0 until BOARD_COLS) {
@@ -92,10 +110,11 @@ fun GameBoard(
                         col = col,
                         cellWidth = cellWidth,
                         cellHeight = cellHeight,
-                        cellSpacing = BlockCellSpacing // 可调整
+                        cellSpacing = BlockCellSpacing
                     )
                 }
             }
+            
             // 绘制网格线
             val gridColor = Color.LightGray
             for (i in 1 until BOARD_COLS) {

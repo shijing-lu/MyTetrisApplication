@@ -15,7 +15,9 @@ data class GameState(
     val time: Int = 0,
     val isGameOver: Boolean = false,
     val isPaused: Boolean = false,
-    val isStarted: Boolean = false // 新增字段，表示游戏是否已开始
+    val isStarted: Boolean = false, // 表示游戏是否已开始
+    val assistMode: Boolean = false, // 辅助模式开关
+    val ghostBlock: List<Pair<Int, Int>> = emptyList() // 预测下落位置（灰色方块）
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -30,6 +32,8 @@ data class GameState(
         if (time != other.time) return false
         if (isGameOver != other.isGameOver) return false
         if (isPaused != other.isPaused) return false
+        if (assistMode != other.assistMode) return false
+        if (ghostBlock != other.ghostBlock) return false
 
         return true
     }
@@ -42,6 +46,8 @@ data class GameState(
         result = 31 * result + time
         result = 31 * result + isGameOver.hashCode()
         result = 31 * result + isPaused.hashCode()
+        result = 31 * result + assistMode.hashCode()
+        result = 31 * result + ghostBlock.hashCode()
         return result
     }
 } 

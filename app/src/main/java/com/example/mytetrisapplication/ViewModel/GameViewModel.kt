@@ -11,17 +11,19 @@ import kotlinx.coroutines.delay
 import com.example.mytetrisapplication.ui.GameState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import com.example.mytetrisapplication.ui.GameView.Block
 import com.example.mytetrisapplication.database.GameRecordEntity
 import com.example.mytetrisapplication.GameRecordRepository
 import android.content.Context
+import com.example.mytetrisapplication.ui.GameView.BOARD_COLS
+import com.example.mytetrisapplication.ui.GameView.BOARD_ROWS
+import com.example.mytetrisapplication.ui.GameView.Block
 
 class GameViewModel : ViewModel() {
-    val board: Array<IntArray> = Array(com.example.mytetrisapplication.ui.GameView.BOARD_ROWS) { IntArray(com.example.mytetrisapplication.ui.GameView.BOARD_COLS) { 0 } }
-    var currentBlock: Block = Block.random(com.example.mytetrisapplication.ui.GameView.BOARD_ROWS, com.example.mytetrisapplication.ui.GameView.BOARD_COLS)
+    val board: Array<IntArray> = Array(BOARD_ROWS) { IntArray(BOARD_COLS) { 0 } }
+    var currentBlock: Block = Block.random(BOARD_ROWS, BOARD_COLS)
     var score: Int = 0
     var isGameOver: Boolean = false
-    var nextBlock: Block = Block.random(com.example.mytetrisapplication.ui.GameView.BOARD_ROWS, com.example.mytetrisapplication.ui.GameView.BOARD_COLS)
+    var nextBlock: Block = Block.random(BOARD_ROWS, BOARD_COLS)
 
     // 游戏状态Flow
     private val _gameState = MutableStateFlow(GameState())
@@ -261,11 +263,47 @@ class GameViewModel : ViewModel() {
     }
     
     /**
+     * 切换辅助模式
+     */
+    fun toggleAssistMode() {
+        _gameState.update { it.copy(assistMode = !it.assistMode) }
+        // 如果开启辅助模式且游戏正在进行，立即计算预测位置
+        if (_gameState.value.assistMode && _gameState.value.isStarted && !_gameState.value.isGameOver) {
+            updateGameState()
+        }
+    }
+    
+    /**
+     * 计算方块的预测下落位置（Ghost Block）
+     */
+    private fun calculateGhostBlock(): List<Pair<Int, Int>> {
+        if (!_gameState.value.assistMode || _gameState.value.isGameOver) {
+            return emptyList()
+        }
+        
+        var ghostBlock = currentBlock.copy()
+        
+        // 模拟方块一直下落，直到无法继续
+        while (true) {
+            val nextPosition = ghostBlock.copy(row = ghostBlock.row + 1)
+            if (canPlace(nextPosition)) {
+                ghostBlock = nextPosition
+            } else {
+                break
+            }
+        }
+        
+        return ghostBlock.absoluteCoords()
+    }
+    
+    /**
      * 更新游戏状态
      */
     private fun updateGameState(isStarted: Boolean? = null) {
         val (board, active) = getRenderBoard()
         val nextShape = getNextBlockShape()
+        val ghostBlock = if (_gameState.value.assistMode) calculateGhostBlock() else emptyList()
+        
         _gameState.update { currentState ->
             currentState.copy(
                 board = board,
@@ -273,7 +311,8 @@ class GameViewModel : ViewModel() {
                 nextBlockShape = nextShape,
                 score = score,
                 isGameOver = isGameOver,
-                isStarted = isStarted ?: currentState.isStarted
+                isStarted = isStarted ?: currentState.isStarted,
+                ghostBlock = ghostBlock
             )
         }
     }
